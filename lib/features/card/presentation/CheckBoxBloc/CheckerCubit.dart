@@ -1,30 +1,21 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:card/features/card/domain/entities/CardEntity.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../CounterBloc/CounterCubit.dart';
 
 class CheckerCubit extends Cubit<bool> {
-  int countOfList = 0;
   CheckerCubit() : super(false);
 
-  void changeCheck(CardEntity card, bool value) {
+  void changeCheck(CardEntity card,BuildContext context) {
     card.selected = !state;
 
     emit(!state);
-    if (card.selected == true) {
-      countOfList++;
-    } else {
-      countOfList--;
-    }
-  }
-}
 
-class TotalCubit extends Cubit<String> {
-  final List<CardEntity> countOfList;
-  TotalCubit(this.countOfList) : super('');
-
-  String getTotal(List<CardEntity> countOfList) {
-    print(countOfList.where((element) => element.selected =true).map((e) => e.countOfNeeded * e.price).toList().reduce((value, element) => value + element).toString());
-    emit(countOfList.where((element) => element.selected =true).map((e) => e.countOfNeeded * e.price).toList().reduce((value, element) => value + element).toString().toString());
-    return (countOfList.where((element) => element.selected =true).map((e) => e.countOfNeeded * e.price).toList().reduce((value, element) => value + element).toString());
-
+    BlocProvider.of<CounterCubit>(context)
+        .changeCheck(
+        card);
   }
 }

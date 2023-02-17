@@ -47,7 +47,7 @@ class finalCard extends StatelessWidget {
                         height: 5,
                       ),
                       Text(
-                        '\$ ${num.parse(card[index].price.toString())}',
+                        '\$ ${num.parse(card[index].price.toString())}   count    ${card[index].countOfNeeded}',
                         style:
                         const TextStyle(fontSize: 15, color: Color(0xff02A88A)),
                       ),

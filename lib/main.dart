@@ -52,9 +52,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => CheckerCubit(),
         ),
-        BlocProvider(
-          create: (_) => TotalCubit([]),
-        ),
+        // BlocProvider(
+        //   create: (_) => TotalCubit([]),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

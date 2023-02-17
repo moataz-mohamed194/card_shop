@@ -50,4 +50,15 @@ class CardRepositoriesImpl implements CardRepository {
       }
 
   }
+
+  @override
+  Future<Either<Failures, Unit>> deleteCardData(CardEntity card) async {
+
+    try {
+      await remoteDataSource.deleteCard(card);
+      return Right(unit);
+    } on OfflineException {
+      return Left(OfflineFailures());
+    }
+  }
 }

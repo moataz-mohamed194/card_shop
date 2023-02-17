@@ -11,6 +11,7 @@ abstract class CardRemoteDataSource {
   Future<List<CardModel>> getAllCard();
   Future<Unit> updateCard(List<CardEntity> card);
   Future<Unit> addCard(CardEntity card);
+  Future<Unit> deleteCard(CardEntity card);
 }
 
 class CardRemoteDataSourceImple extends CardRemoteDataSource {
@@ -102,6 +103,30 @@ class CardRemoteDataSourceImple extends CardRemoteDataSource {
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
       }
+      return Future.value(unit);
+    } catch (e) {
+      throw OfflineException();
+    }
+  }
+
+  @override
+  Future<Unit> deleteCard(CardEntity card) async {
+    try {
+      final db = await openDatabase(
+        join(await getDatabasesPath(), 'demo3.db'),
+        onCreate: (db, version) {
+          return db.execute(
+            'CREATE TABLE Product(id INTEGER PRIMARY KEY, name TEXT,image TEXT,count INTEGER,price TEXT)',
+          );
+        },
+        version: 1,
+      );
+
+      await db.delete(
+        'Product',
+        where: 'id = ?',
+        whereArgs: [card.id],
+      );
       return Future.value(unit);
     } catch (e) {
       throw OfflineException();

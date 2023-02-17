@@ -17,6 +17,14 @@ class AddCardEvent extends CardEvent {
   @override
   List<Object> get props => [card];
 }
+class DeleteCardEvent extends CardEvent {
+  final CardEntity card;
+
+  DeleteCardEvent({required this.card});
+
+  @override
+  List<Object> get props => [card];
+}
 
 class UpdateCardEvent extends CardEvent {
   final List<CardEntity> card;

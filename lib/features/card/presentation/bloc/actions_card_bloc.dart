@@ -5,6 +5,7 @@ import '../../../../core/string/failures.dart';
 import '../../../../core/string/messages.dart';
 import '../../domain/entities/CardEntity.dart';
 import '../../domain/usecases/add_card.dart';
+import '../../domain/usecases/delete_card.dart';
 import '../../domain/usecases/get_all_card.dart';
 import '../../domain/usecases/update_card_data.dart';
 import 'actions_card_event.dart';
@@ -12,17 +13,22 @@ import 'actions_card_state.dart';
 
 class AddUpdateGetCardBloc extends Bloc<CardEvent, AddUpdateGetCardState> {
   final AddCardData addCard;
+  final DeleteCardData deleteCard;
   final UpdateCardData updateCard;
   final GetCardData getCard;
 
   AddUpdateGetCardBloc(
-      {required this.addCard, required this.updateCard, required this.getCard})
+      {required this.addCard,required this.deleteCard, required this.updateCard, required this.getCard})
       : super(CardInitial()) {
     on<CardEvent>((event, emit) async {
-      print(event);
       if (event is AddCardEvent) {
         emit(LoadingCardState());
         final failureOrDoneMessage = await addCard(event.card);
+        emit(_mapFailureOrPostsToStateForAdd(
+            failureOrDoneMessage, ADD_SUCCESS_MESSAGE));
+      }else if (event is DeleteCardEvent) {
+        emit(LoadingCardState());
+        final failureOrDoneMessage = await deleteCard(event.card);
         emit(_mapFailureOrPostsToStateForAdd(
             failureOrDoneMessage, ADD_SUCCESS_MESSAGE));
       } else if (event is UpdateCardEvent) {
@@ -39,7 +45,8 @@ class AddUpdateGetCardBloc extends Bloc<CardEvent, AddUpdateGetCardState> {
   }
 }
 
-AddUpdateGetCardState _mapFailureOrPostsToStateForAdd(
+AddUpdateGetCardState
+_mapFailureOrPostsToStateForAdd(
     Either<Failures, Unit> either, String message) {
   return either.fold(
     (failure) => ErrorCardState(message: _mapFailureToMessage(failure)),

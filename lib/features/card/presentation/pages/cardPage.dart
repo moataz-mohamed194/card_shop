@@ -33,13 +33,13 @@ class CardPage extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       BlocProvider.of<AddUpdateGetCardBloc>(context)
-                          .add(AddCardEvent(
-                              card: CardEntity(
-                        name: 'watches',
-                        count: 5,
-                        image: "assets/Group 212.png",
-                        price: 100,
-                      )));
+                        .add(AddCardEvent(
+                            card: CardEntity(
+                          name: 'watches',
+                          count: 5,
+                          image: "assets/Group 212.png",
+                          price: 100,
+                        )));
                     },
                     icon: Image.asset('assets/CompositeLayer.png')),
               ],
@@ -58,14 +58,13 @@ class CardPage extends StatelessWidget {
                         children: [
                           state.card.isNotEmpty
                               ? Expanded(
-                                  flex: 4,
                                   child: _buildBody(context, state.card),
                                 )
                               : Container(),
-                          state.card.isNotEmpty
-                              ? Expanded(
-                                  child: _bottomBody(context, state.card))
-                              : Container(),
+                          // state.card.isNotEmpty
+                          //     ? Expanded(
+                          //         child: _bottomBody(context, state.card))
+                          //     : Container(),
                         ],
                       );
                     } else if (state is ErrorCardState) {
@@ -76,21 +75,17 @@ class CardPage extends StatelessWidget {
                 ))));
   }
 
-  Widget _buildBody(
-    BuildContext context,
-    List<CardEntity> data,
-  ) {
+  Widget _buildBody(BuildContext context, List<CardEntity> data,) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: RefreshIndicator(
-          onRefresh: () => _onRefresh(context), child: ListCard(card: data)),
+          onRefresh: () => _onRefresh(context),
+          child: ListCard(card: data)),
     );
   }
 
-  Widget _bottomBody(
-    BuildContext context,
-    List<CardEntity> data,
-  ) {
+  Widget _bottomBody(BuildContext context, List<CardEntity> data,) {
+
     return SizedBox(
       height: 100,
       child: Container(
@@ -106,7 +101,10 @@ class CardPage extends StatelessWidget {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [Text('Total Payment'), Text('0')],
+              children: const[
+                 Text('Total Payment'),
+                 Text('0')
+              ],
             ),
             MaterialButton(
               minWidth: 200.0,
@@ -117,7 +115,7 @@ class CardPage extends StatelessWidget {
               // data.map((card) => card.countOfNeeded).toList().reduce((value, element) => value + element)
               child: Text(
                   'Buy (${data.where((card) => card.selected = true).map((card) => card.countOfNeeded).toList().reduce((value, element) => value + element)} item)',
-                  style: const TextStyle(fontSize: 16.0, color: Colors.white)),
+                  style:  const TextStyle(fontSize: 16.0, color: Colors.white)),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => FinalPage(cardData: this.cards)));
