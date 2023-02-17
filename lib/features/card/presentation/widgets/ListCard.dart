@@ -30,10 +30,12 @@ class ListCard extends StatelessWidget {
                   children: [
                     BlocBuilder<CheckerCubit, bool?>(
                       builder: (context, state) {
+                        print(card[index].selected);
                         return Checkbox(
                           activeColor: Color(0xff01A688),
                           value: card[index].selected,
                           onChanged: (bool? value) {
+                            print(value);
                             context
                                 .read<CheckerCubit>()
                                 .changeCheck(card[index], value!);
@@ -65,52 +67,50 @@ class ListCard extends StatelessWidget {
                     const SizedBox(
                       height: 13,
                     ),
-                    Text(
-                      '\$ ${card[index].price}',
-                      style: const TextStyle(
-                          fontSize: 15, color: Color(0xff02A88A)),
-                    ),
-
-                    // Text(
-                    //   '\$ ${card[index].count}',
-                    //   style: const TextStyle(
-                    //       fontSize: 15, color: Color(0xff02A88A)),
-                    // ),
-                    const SizedBox(
-                      height: 13,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          width: 30,
-                          height: 30,
-                          child: InkWell(
-                              onTap: () {
-                                context
-                                    .read<CounterCubit>()
-                                    .increment(card[index]);
-                              },
-                              child: const Icon(Icons.add)),
-                        ),
-                        BlocBuilder<CounterCubit, int>(
-                          builder: (context, state) {
-                            return Text('${card[index].countOfNeeded}');
-                          },
-                        ),
-                        Container(
-                          width: 25,
-                          height: 25,
-                          margin: const EdgeInsets.only(left: 10),
-                          child: InkWell(
-                              onTap: () {
-                                context
-                                    .read<CounterCubit>()
-                                    .decrement(card[index]);
-                              },
-                              child: const Icon(Icons.remove)),
-                        )
-                      ],
+                    BlocBuilder<CounterCubit, int>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            Text(
+                              '\$ ${num.parse(card[index].price.toString()) * num.parse(card[index].countOfNeeded.toString())}',
+                              style: const TextStyle(
+                                  fontSize: 15, color: Color(0xff02A88A)),
+                            ),
+// ToDo:remove it before u upload
+                            Text(card[index].count.toString()),
+                            const SizedBox(
+                              height: 13,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 30,
+                                  height: 30,
+                                  child: InkWell(
+                                      onTap: () => context
+                                          .read<CounterCubit>()
+                                          .increment(card[index]),
+                                      child: const Icon(Icons.add)),
+                                ),
+                                Text('${card[index].countOfNeeded}'),
+                                Container(
+                                  width: 25,
+                                  height: 25,
+                                  margin: const EdgeInsets.only(left: 10),
+                                  child: InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<CounterCubit>()
+                                            .decrement(card[index]);
+                                      },
+                                      child: const Icon(Icons.remove)),
+                                )
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -118,7 +118,9 @@ class ListCard extends StatelessWidget {
               Container(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                    },
                     icon: Image.asset('assets/Icon Rubish.png')),
               )
             ],

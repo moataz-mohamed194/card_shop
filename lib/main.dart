@@ -5,6 +5,7 @@ import 'features/card/presentation/CheckBoxBloc/CheckerCubit.dart';
 import 'features/card/presentation/CounterBloc/CounterCubit.dart';
 import 'package:path/path.dart';
 import 'features/card/presentation/bloc/actions_card_bloc.dart';
+import 'features/card/presentation/bloc/actions_card_event.dart';
 import 'features/card/presentation/pages/cardPage.dart';
 import '../../../../injection_container.dart' as di;
 
@@ -44,12 +45,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_)=> di.sl<AddUpdateGetCardBloc>()),
+        BlocProvider(create: (_)=> di.sl<AddUpdateGetCardBloc>()..add(GetCardEvent())),
         BlocProvider(
           create: (_) => CounterCubit(),
         ),
         BlocProvider(
           create: (_) => CheckerCubit(),
+        ),
+        BlocProvider(
+          create: (_) => TotalCubit([]),
         ),
       ],
       child: MaterialApp(

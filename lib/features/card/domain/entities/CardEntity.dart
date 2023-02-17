@@ -5,7 +5,7 @@ class CardEntity extends Equatable {
   final int count;
   final int? id;
   late bool? selected;
-  late int? countOfNeeded;
+  late int countOfNeeded;
   final String image;
   final double price;
 

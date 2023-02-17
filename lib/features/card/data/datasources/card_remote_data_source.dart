@@ -14,78 +14,6 @@ abstract class CardRemoteDataSource {
 }
 
 class CardRemoteDataSourceImple extends CardRemoteDataSource {
-  ///getAllClinic
-  // @override
-  // Future<List<CardModel>> getAllClinic() async {
-  //   final response = await client.get(
-  //       Uri.parse(BASE_URL+"/users/get_clinic_data/"),
-  //       headers: {"Content-Type": "application/json"}
-  //   );
-  //   if (response.statusCode == 200){
-  //     try {
-  //       final List decodeJson = json.decode(response.body) as List;
-  //       final List<ClinicModel> clinicModels = decodeJson
-  //           .map<ClinicModel>((jsonClinicModel) =>
-  //           ClinicModel.fromJson(jsonClinicModel))
-  //           .toList();
-  //       return clinicModels;
-  //     }catch(e){
-  //       throw OfflineException();
-  //
-  //     }
-  //   }else{
-  //     throw OfflineException();
-  //   }
-  // }
-  ///addClinic
-  // @override
-  // Future<Unit> addClinic(Clinic clinic) async {
-  //
-  //   final body = {
-  //     'address': clinic.addrees.toString(),
-  //     'note': clinic.note.toString(),
-  //     'time_of_vacation': clinic.timeOfVacation.toString(),
-  //     'from_time': clinic.fromTime.toString(),
-  //     'to_time': clinic.toTime.toString(),
-  //     'latitude': clinic.latitude.toString(),
-  //     'longitude': clinic.longitude.toString(),
-  //   };
-  //   try{
-  //     final response = await client.post(Uri.parse(BASE_URL + '/doctor/model_of_clinic/'),body: body);
-  //
-  //     if (response.statusCode == 201 || response.body == '{"Results": "Success request"}'){
-  //       return Future.value(unit);
-  //     }else{
-  //       throw OfflineException();
-  //     }}
-  //   catch(e){
-  //     throw OfflineException();
-  //   }
-  // }
-  ///updateClinic
-  // @override
-  // Future<Unit> updateClinic(Clinic clinic) async {
-  // // Future<Unit> updateClinic(int id) async {
-  //
-  //   final body ={
-  //     'address': clinic.addrees.toString(),
-  //     'note': clinic.note.toString(),
-  //     'time_of_vacation': clinic.timeOfVacation.toString(),
-  //     'from_time': clinic.fromTime.toString(),
-  //     'to_time': clinic.toTime.toString(),
-  //     'pk':clinic.id.toString(),
-  //     'latitude': clinic.latitude.toString(),
-  //     'longitude': clinic.longitude.toString(),
-  //   };
-  //   final response = await client.patch(
-  //       Uri.parse(BASE_URL+'/doctor/edit_data_clinic/'), body: body
-  //   );
-  //   if (response.statusCode == 200){
-  //     return Future.value(unit);
-  //   }else{
-  //     throw OfflineException();
-  //   }
-  // }
 
   @override
   Future<Unit> addCard(CardEntity card) async {
@@ -169,9 +97,7 @@ class CardRemoteDataSourceImple extends CardRemoteDataSource {
             'count': int.parse(card[i].count.toString()) -
                 int.parse(card[i].countOfNeeded.toString())
           },
-
           where: 'id = ?',
-          // Pass the Dog's id as a whereArg to prevent SQL injection.
           whereArgs: [card[i].id],
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
