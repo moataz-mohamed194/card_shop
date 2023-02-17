@@ -7,6 +7,7 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/widgets/message_display_widget.dart';
 import '../../data/models/card_model.dart';
 import '../CheckBoxBloc/CheckerCubit.dart';
+import '../CounterBloc/CounterCubit.dart';
 import '../bloc/actions_card_event.dart';
 import '../bloc/actions_card_state.dart';
 import '../../../../injection_container.dart' as di;
@@ -132,6 +133,8 @@ class CardPage extends StatelessWidget {
   _onRefresh(BuildContext context) async {
     try {
       BlocProvider.of<AddUpdateGetCardBloc>(context).add(GetCardEvent());
+      BlocProvider.of<CounterCubit>(context).restart();
+
     } catch (e) {
       print(e);
     }

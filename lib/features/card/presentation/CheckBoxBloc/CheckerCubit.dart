@@ -15,7 +15,7 @@ class CheckerCubit extends Cubit<bool> {
     emit(!state);
 
     BlocProvider.of<CounterCubit>(context)
-        .changeCheck(
+        .changeCheck0(
         card);
   }
 }

@@ -17,7 +17,10 @@ class ListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CounterCubit, dynamic>(builder: (context, state) {
+    return BlocProvider(
+        create: (context) => CheckerCubit(),
+    child: BlocBuilder<CounterCubit, dynamic>(
+        builder: (context, state) {
       return Column(
         children: [
           Expanded(
@@ -35,19 +38,19 @@ class ListCard extends StatelessWidget {
                       Expanded(
                         child: Row(
                           children: [
-
-                BlocBuilder<CheckerCubit, dynamic>(builder: (context, state) {
-                return Checkbox(
-                                  activeColor: Color(0xff01A688),
-                                  value: card[index].selected,
-                                  onChanged: (bool? value) {
-
-                                      BlocProvider.of<CheckerCubit>(context)
-                                          .changeCheck(
-                                          card[index],context);
-                                    // }
-                                  },
-                                );}),
+                            BlocProvider(
+                              create: (context) => CheckerCubit(),
+                              child: BlocBuilder<CheckerCubit, bool>(
+                                builder: (context, isChecked) {
+                                  return Checkbox(
+                                    value: isChecked,
+                                    onChanged: (value) {
+                                      context.read<CheckerCubit>().changeCheck(card[index], context);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
                             Container(
                               height: 90,
                               width: 90,
@@ -149,8 +152,7 @@ class ListCard extends StatelessWidget {
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [const Text('Total Payment'), Text(context
-                        .read<CounterCubit>().totalPrice.toString())],
+                    children:  [const Text('Total Payment'), Text(context.read<CounterCubit>().totalPrice.toString())],
                   ),
                   MaterialButton(
                     minWidth: 200.0,
@@ -159,8 +161,7 @@ class ListCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(22.0)),
                     color: const Color(0xFFFFB039),
                     // data.map((card) => card.countOfNeeded).toList().reduce((value, element) => value + element)
-                    child: Text('Buy (${context
-                        .read<CounterCubit>().totalCounter} item)',
+                    child: Text('Buy (${context.read<CounterCubit>().totalCounter} item)',
                         style: const TextStyle(
                             fontSize: 16.0, color: Colors.white)),
                     onPressed: () {
@@ -174,7 +175,7 @@ class ListCard extends StatelessWidget {
           )
         ],
       );
-    });
+    }));
   }
   //   ],
   // );
