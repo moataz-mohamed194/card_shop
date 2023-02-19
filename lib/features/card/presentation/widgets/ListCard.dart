@@ -83,7 +83,7 @@ class ListCard extends StatelessWidget {
                                       fontSize: 15, color: Color(0xff02A88A)),
                                 ),
 // ToDo:remove it before u upload
-                                Text(card[index].count.toString()),
+                                Text('in Stock: ${card[index].count.toString()}'),
                                 const SizedBox(
                                   height: 13,
                                 ),
